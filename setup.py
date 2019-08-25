@@ -1,9 +1,11 @@
+from setuptools import setup, find_packages
 
-from setuptools import setup
+packages = find_packages('.')
 
 setup(
     name="interp",
     license="MIT",
-    packages=["interp"],
+    packages=packages,
+    include_package_data=True,
     zip_safe=True,
 )

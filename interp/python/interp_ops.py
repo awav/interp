@@ -4,15 +4,14 @@ from tensorflow.python.platform import resource_loader
 
 __all__ = ["linear_interp", "cubic_interp_system", "regular_interp", "tri_diag_solve", "cubic_gather"]
 
+ops = load_library.load_op_library(resource_loader.get_path_to_datafile('_interp_ops.so'))
 
-interp_ops = load_library.load_op_library(resource_loader.get_path_to_datafile('interp_ops.so'))
-
-linear_interp = interp_ops.linear_interp
-cubic_interp_system = interp_ops.cubic_interp_system
-regular_interp = interp_ops.regular_interp
-tri_diag_solve = interp_ops.tri_diag_solve
-cubic_gather = interp_ops.cubic_gather
-cubic_gather_rev = interp_ops.cubic_gather_rev
+linear_interp = ops.linear_interp
+cubic_interp_system = ops.cubic_interp_system
+regular_interp = ops.regular_interp
+tri_diag_solve = ops.tri_diag_solve
+cubic_gather = ops.cubic_gather
+cubic_gather_rev = ops.cubic_gather_rev
 
 
 @tf.RegisterGradient("TriDiagSolve")

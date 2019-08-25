@@ -1,1 +1,1 @@
-recursive-include tfinterp/ *.so
+recursive-include interp/ *.so

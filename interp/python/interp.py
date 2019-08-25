@@ -2,7 +2,7 @@
 
 import tensorflow as tf
 
-from .interp_ops import cubic_gather, linear, regular, tri_diag_solve
+from .interp_ops import cubic_gather, linear_interp, regular_interp, tri_diag_solve
 
 __all__ = [
     "LinearInterpolator",
@@ -39,7 +39,7 @@ class LinearInterpolator(object):
 
         """
         with tf.name_scope(self.name, "LinearInterpolator"):
-            return linear(t, self.x, self.y, name=name)[0]
+            return linear_interp(t, self.x, self.y, name=name)[0]
 
 
 class CubicInterpolator(object):
@@ -78,11 +78,14 @@ class CubicInterpolator(object):
             dy_up = s_up(dy)
             dy_lo = s_lo(dy)
 
-            first = lambda a: tf.gather(
-                a,
-                tf.zeros(1, dtype=tf.int64),  # NOQA
-                axis=axis)
-            last = lambda a: tf.gather(a, [size - 2], axis=axis)  # NOQA
+            def first(a):
+                return tf.gather(
+                    a,
+                    tf.zeros(1, dtype=tf.int64),  # NOQA
+                    axis=axis)
+
+            def last(a):
+                return tf.gather(a, [size - 2], axis=axis)  # NOQA
 
             fpa_ = fpa if fpa is not None else tf.constant(0, x.dtype)
             fpb_ = fpb if fpb is not None else tf.constant(0, x.dtype)
@@ -158,9 +161,9 @@ class RegularGridInterpolator(object):
 
     def evaluate(self, t, name=None):
         with tf.name_scope(self.name, "RegularGridInterpolator"):
-            return regular(self.points,
-                           self.values,
-                           t,
-                           check_sorted=self.check_sorted,
-                           bounds_error=self.bounds_error,
-                           name=self.name)[0]
+            return regular_interp(self.points,
+                                  self.values,
+                                  t,
+                                  check_sorted=self.check_sorted,
+                                  bounds_error=self.bounds_error,
+                                  name=self.name)[0]
