@@ -1,4 +1,6 @@
-**Multivariate linear interpolation in TensorFlow**
+Multivariate Linear Interpolation in TensorFlow
+===
+
 
 <!-- This module implements a custom TensorFlow operation that replicates the
 [RegularGridInterpolator](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.RegularGridInterpolator.html)
